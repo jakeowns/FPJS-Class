@@ -18,7 +18,7 @@ var user = {
   }
 };
 
-var ex1 = undefined;
+var ex1 = _.compose(_.chain(safeProp('name')), _.chain(safeProp('street')), safeProp('address'));
 
 
 // Exercise 2
@@ -36,7 +36,12 @@ var pureLog = function(x) {
   });
 }
 
-var ex2 = undefined;
+var ex2 = _.compose(
+  _.chain(
+    _.compose(pureLog, _.last, _.split('\\'))  // windows
+  ),
+  getFile
+);
 
 
 
@@ -60,7 +65,10 @@ var getComments = function(i) {
   });
 }
 
-var ex3 = undefined;
+var ex3 = _.compose(
+  _.chain(_.compose(getComments, _.prop('id'))),
+  getPost
+);
 
 
 // Exercise 4
@@ -88,7 +96,10 @@ var validateEmail = function(x){
 }
 
 //  ex4 :: Email -> Either String (IO String)
-var ex4 = undefined;
+var ex4 = _.compose(
+  _.map(_.compose(_.chain(emailBlast), addToMailingList)),
+  validateEmail
+);
 
 
 module.exports = {ex1: ex1, ex2: ex2, ex3: ex3, ex4: ex4, user: user}
